@@ -1,21 +1,29 @@
-#!/usr/bin/env node
+const readline = require('readline');
+const path = require('path');
+const fs = require('fs');
 
-const readline = require("readline");
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-rl.question("What is the name of your project ? ", function(name) {
-    rl.question("what is the github repo of the project ? ", function(repo) {
-        rl.question("who are the contributors of the project ? ", function(crtbutrs) {
-          console.log(`${name}, with github repo ${repo}, and the following as contributors ${crtbutrs}`);
-          rl.close();
+rl.question('name of project? ', function(title){
+    const file = 'ReadMe.md'
+    rl.question('What are the installations needed for the project? ', function(tools){
+        rl.question('what is the use of your project? ', function(Use){
+            rl.question("who are the contributors? ", function(contributors){
+                console.log(`${title}`);
+                fs.writeFileSync(path.join(__dirname,file),"\n"+"# " + title  + "\n")
+						        fs.appendFileSync(file, "\n" + "## tools"+ "\n" + tools +"\n")
+						        fs.appendFileSync(file, "\n" + "## Use"+ "\n" + Use +"\n")
+						        fs.appendFileSync(file, "\n" + "## Contributors"+ "\n" + contributors+"\n")
+                rl.close();
+            });
         });
     });
-});
+    });
 
-rl.on("close", function() {
-    console.log("\nBYE BYE !!!");
-    process.exit(0);
-});
+    rl.on("close", function(){
+        console.log('good');
+        process.exit(0);
+    });
